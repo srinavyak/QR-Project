@@ -1,0 +1,353 @@
+﻿{% load static %}
+{% static "images" as baseUrl %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{%static 'img/logo/logo.png' %}" rel="icon">
+    <title>QR Forms</title>
+    <link href="{%static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'css/ruang-admin.min.css' %}" rel="stylesheet">
+    <style>
+        button.cancel.btn.btn-primary {
+            margin-left: -421px;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <img src="{%static 'img/logo/logo.png' %}">
+                </div>
+                <div class="sidebar-brand-text mx-3"><img src="{%static 'img/logo/qr-logo.png' %}"></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="template">
+                    <i class="far fa-fw fa-window-maximize"></i>
+                    <span>Templates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="adduser">
+                    <i class="fab fa-fw fa-wpforms"></i>
+                    <span>User Information</span>
+                </a>
+            </li>
+            <!--<li class="nav-item">
+                <a class="nav-link collapsed" href="#">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Saved Forms</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-palette"></i>
+                    <span>UI Colors</span>
+                </a>
+            </li>-->
+            <li class="nav-item">
+                <a class="nav-link" href="userform">
+                    <i class="fas fa-fw fa-columns"></i>
+                    <span>User Home</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle" src="{%static 'img/boy.png' %}"
+                                    style="max-width: 60px">
+                                <span class="ml-2 d-none d-lg-inline text-white small">QR (Admin)</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="profile">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="changepassword">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Topbar -->
+                <!-- Container Fluid-->
+
+                <div class="container-fluid" id="container-wrapper">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Profile</h1>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="template">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                        </ol>
+                    </div>
+
+                    <!-- Row -->
+                    <div class="row mb-3">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card mb-4">
+                                <form id='myform' action="updateprofile" method="POST">
+                                    {% csrf_token %}
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">User Profile</h6>
+                                        <button type="button" class="edit btn btn-primary" name="edit">Edit</button>
+                                        <button type="button" class="update btn btn-primary float-right" id="save"
+                                            onclick="validation()" name="update" value="submit"
+                                            style="display:none;">Update</button>
+                                        <button type="reset" class="cancel btn btn-primary float-right" name="cancel"
+                                            style="display:none;">Cancel</button>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Register Content -->
+                                        <!--  <form> -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">First Name</label>
+                                            <div class="col-sm-9">
+                                                <label id="firstnamelabel">{{firstname}}</label>
+                                                <input type="text" class="form-control firstname" name="firstname" id="firstname"
+                                                    value="{{firstname}}" placeholder="firstname" style="display:none;">
+                                                <span class="validation" id="fname"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Last Name</label>
+                                            <div class="col-sm-9">
+                                                <label id="lastnamelabel">{{lastname}}</label>
+                                                <input type="text" class="form-control lastname" id="lastname"
+                                                    value="{{lastname}}" name="lastname" placeholder="lastname"
+                                                    style="display:none;">
+                                                <span class="validation" id="lname"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Email</label>
+                                            <div class="col-sm-9">
+                                                <label id="emaillabel">{{email}}</label>
+                                                <input type="email" class="form-control email" id="email"
+                                                    value="{{email}}" name="email" placeholder="Email"
+                                                    style="display:none;">
+                                                <span class="validation" id="valEmail"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">QR-ID</label>
+                                            <div class="col-sm-9">
+                                                <label id="qridlabel">{{qrid}}</label>
+                                                <input type="text" class="form-control qrid" id="qrid" value="{{qrid}}"
+                                                    name="qrid" placeholder="QR-ID" style="display:none;">
+                                                <span class="validation" id="qr"></span>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group row">
+                                            <div class="col-sm-12  text-right">
+                                                <button type="submit" class="btn btn-primary">Save User</button>
+                                            </div>
+                                        </div> -->
+
+                                        <!-- <button type="submit" class="update btn btn-primary"  id="save"
+                                        name="update">Save</button> -->
+                                        <div class="text-center">
+                                        </div>
+                                        <!-- </form> -->
+                                        <!-- Register Content -->
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--Row-->
+
+                </div>
+
+                <!---Container Fluid-->
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>
+                            copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> - Reserved by
+                            <b><a href="https://www.quadrantresource.com/" target="_blank">Quadrant Resource</a></b>
+                        </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+        </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script src="{%static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{%static 'js/ruang-admin.min.js' %}"></script>
+    <script src="{%static 'js/table-search-pagination.js' %}"></script>
+    <script src="{%static 'js/ajax.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+
+            //var columns = ["SheetID", "SheetName", "SortOrder", "UserRole"];
+            //var data = [{ "SheetID": 1, "SheetName": "Scenario Construction", "SortOrder": 1, "UserRole": "1,2" }, { "SheetID": 2, "SheetName": "Scenario Baseline", "SortOrder": 2, "UserRole": "1,2" }, { "SheetID": 3, "SheetName": "Azure Module", "SortOrder": 3, "UserRole": "1,2" }, { "SheetID": 4, "SheetName": "Scenario Summary", "SortOrder": 4, "UserRole": "1,2" }, { "SheetID": 5, "SheetName": "Pricing Insights", "SortOrder": 5, "UserRole": "1" }, { "SheetID": 6, "SheetName": "Scenario Comparison", "SortOrder": 6, "UserRole": "1,2" }, { "SheetID": 7, "SheetName": "Scenario Approval", "SortOrder": 7, "UserRole": "1" }, { "SheetID": 8, "SheetName": "Customer Summary", "SortOrder": 8, "UserRole": "1,2" }, { "SheetID": 9, "SheetName": "SKU Quick Lookup", "SortOrder": 9, "UserRole": "1,2" }, { "SheetID": 10, "SheetName": "Deal Options Summary", "SortOrder": 10, "UserRole": "1,2" }, { "SheetID": 11, "SheetName": "sheet11", "SortOrder": 11, "UserRole": "1" }, { "SheetID": 12, "SheetName": "sheet12", "SortOrder": 12, "UserRole": "1,2" }, { "SheetID": 18, "SheetName": "sheet13", "SortOrder": 13, "UserRole": "1,2" }, { "SheetID": 19, "SheetName": "sheet14", "SortOrder": 14, "UserRole": "1,2" }, { "SheetID": 20, "SheetName": "sheet15", "SortOrder": 15, "UserRole": "1" }, { "SheetID": 21, "SheetName": "sheet16", "SortOrder": 16, "UserRole": "2" }];
+            //var actionColumns = 2;
+            //var actionColumnData = ["edit", "delete"];
+            //var searchField = 'SheetName'; // which column to be searched in the table when user enters something in the search textbox
+
+            //onPageLoad(data, 'tableUser', columns, actionColumns, actionColumnData, 1, searchField); // using 1 as it should be default page on page load.
+
+            var columns = ["UserID", "FullName", "Email"];
+            var data = [{ "UserID": 1, "FullName": "AAA", "Email": "aaa@aaa.com" }, { "UserID": 2, "FullName": "BBB", "Email": "bbb@bbb.com" }, { "UserID": 3, "FullName": "CCC", "Email": "ccc@ccc.com" }, { "UserID": 4, "FullName": "DDD", "Email": "ddd@ddd.com" }, { "UserID": 5, "FullName": "EEE", "Email": "eee@eee.com" }, { "UserID": 6, "FullName": "FFF", "Email": "fff@fff.com" }, { "UserID": 7, "FullName": "GGG", "Email": "ggg@ggg.com" }, { "UserID": 8, "FullName": "HHH", "Email": "hhh@hhh.com" }, { "UserID": 9, "FullName": "III", "Email": "iii@iii.com" }, { "UserID": 10, "FullName": "JJJ", "Email": "jjj@bbb.com" }, { "UserID": 11, "FullName": "KKK", "Email": "kkk@kkk.com" }, { "UserID": 12, "FullName": "LLL", "Email": "lll@lll.com" }];
+            var actionColumns = 2;
+            var actionColumnData = ["edit", "delete"];
+            var searchField = 'FullName'; // which column to be searched in the table when user enters something in the search textbox
+
+            onPageLoad(data, 'tableUser', columns, actionColumns, actionColumnData, 1, searchField); // using 1 as it should be default page on page load.
+
+
+            $('.edit').click(function () {
+                $(this).hide();
+                $('.update,.cancel').show();
+                $('#firstnamelabel').css('display', 'none');
+                $('.firstname').css('display', 'block');
+                $('#lastnamelabel').css('display', 'none');
+                $('.lastname').css('display', 'block');
+                $('#emaillabel').css('display', 'none');
+                $('.email').css('display', 'block');
+                $('#qridlabel').css('display', 'none');
+                $('.qrid').css('display', 'block');
+
+
+            });
+            $('.cancel').click(function () {
+                $(this).hide();
+                $('.edit').show();
+                $('.update').hide();
+                document.getElementById("fname").innerHTML = "";
+                document.getElementById("lname").innerHTML = "";
+                document.getElementById("valEmail").innerHTML = "";
+                document.getElementById("qr").innerHTML = "";
+                $('#firstnamelabel').css('display', 'block');
+                $('.firstname').css('display', 'none');
+                $('#lastnamelabel').css('display', 'block');
+                $('.lastname').css('display', 'none');
+                $('#emaillabel').css('display', 'block');
+                $('.email').css('display', 'none');
+                $('#qridlabel').css('display', 'block');
+                $('.qrid').css('display', 'none');
+
+            });
+
+        })
+
+    </script>
+    <script>
+      
+            function validation() {
+
+                var fname = document.getElementById("firstname").value;
+                var lname = document.getElementById("lastname").value;
+                var email1 = document.getElementById("email").value;
+                var qr = document.getElementById("qrid").value;
+                document.getElementById("fname").innerHTML = "";
+                document.getElementById("lname").innerHTML = "";
+                document.getElementById("valEmail").innerHTML = "";
+                document.getElementById("qr").innerHTML = "";
+
+
+                if (fname == "" || fname == null) {
+                    fnameerror = "Firstname required";
+                    document.getElementById("fname").innerHTML = fnameerror;
+                    return false;
+                }
+                if (lname == "" || lname == null) {
+                    lnameerror = "Lastname required";
+                    document.getElementById("lname").innerHTML = lnameerror;
+                    return false;
+                }
+
+
+                var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                if (reg.test(email1)) {
+                    document.getElementById("valEmail").innerHTML = "";
+                }
+                else {
+                    emailError = "Email Required";
+                    document.getElementById("valEmail").innerHTML = emailError;
+                    return false;
+
+                }
+
+                if (qr == "" || qr == null) {
+                    qrerror = "QRID required";
+                    document.getElementById("qr").innerHTML = qrerror;
+                    return false;
+                }
+                document.getElementById("myform").submit();
+                $('.update').hide();
+                $('.edit').show();
+                $('.cancel').hide();
+                $('#firstnamelabel').css('display', 'block');
+                $('.firstname').css('display', 'none');
+                $('#lastnamelabel').css('display', 'block');
+                $('.lastname').css('display', 'none');
+                $('#emaillabel').css('display', 'block');
+                $('.email').css('display', 'none');
+                $('#qridlabel').css('display', 'block');
+                $('.qrid').css('display', 'none');
+
+
+            }
+     
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

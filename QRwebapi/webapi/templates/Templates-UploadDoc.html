@@ -1,0 +1,453 @@
+﻿{% load static %} 
+{% static "images" as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="{%static 'img/logo/logo.png' %}" rel="icon" />
+    <title>QR - Forms</title>
+    <link
+      href="{%static 'vendor/fontawesome-free/css/all.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="{%static 'css/ruang-admin.min.css' %}" rel="stylesheet" />
+    <script>
+      function validate() {
+        var upload = document.getElementById("customFile");
+
+        if (upload.files.length == 0) {
+          fileerror = "Choose File";
+          document.getElementById("valfile").innerHTML = fileerror;
+          return false;
+        }
+      }
+    </script>
+    <style>
+      label#tempname {
+        margin-left: -6px;
+        margin-top: 8px;
+    }
+    .edit{
+      margin-left: 21px;
+    margin-right: -16px;
+    }
+    .active{
+      margin-left: -90px;
+    }
+    .inactive{
+      margin-left: -11px;
+    }
+    .delete{
+      margin-left: -126px;
+    }
+    </style>
+    
+  </head>
+
+  <body id="page-top" onload="fun()">
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <ul
+        class="navbar-nav sidebar sidebar-light accordion"
+        id="accordionSidebar"
+      >
+        <a
+          class="sidebar-brand d-flex align-items-center justify-content-center"
+          href="index.html"
+        >
+          <div class="sidebar-brand-icon">
+            <img src="{%static 'img/logo/logo.png' %}" />
+          </div>
+          <div class="sidebar-brand-text mx-3">
+            <img src="{%static 'img/logo/qr-logo.png' %}" />
+          </div>
+        </a>
+        <hr class="sidebar-divider my-0" />
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="template">
+            <i class="far fa-fw fa-window-maximize"></i>
+            <span>Templates</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="adduser">
+            <i class="fab fa-fw fa-wpforms"></i>
+            <span>User Information</span>
+          </a>
+        </li>
+        <!--<li class="nav-item">
+          <a class="nav-link collapsed" href="#">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Saved Forms</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-palette"></i>
+            <span>UI Colors</span>
+          </a>
+        </li>-->
+        <li class="nav-item">
+                <a class="nav-link" href="userform">
+                    <i class="fas fa-fw fa-columns"></i>
+                    <span>User Home</span>
+                </a>
+        </li>
+      </ul>
+      <!-- Sidebar -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <!-- TopBar -->
+          <nav
+            class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top"
+          >
+            <button
+              id="sidebarToggleTop"
+              class="btn btn-link rounded-circle mr-3"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+            <ul class="navbar-nav ml-auto">
+              <div class="topbar-divider d-none d-sm-block"></div>
+              <li class="nav-item dropdown no-arrow">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="userDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <img
+                    class="img-profile rounded-circle"
+                    src="{%static 'img/boy.png' %}"
+                    style="max-width: 60px"
+                  />
+                  <span class="ml-2 d-none d-lg-inline text-white small"
+                    >QR (Admin)</span
+                  >
+                </a>
+                <div
+                  class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="userDropdown"
+                >
+                  <a class="dropdown-item" href="profile">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Profile
+                  </a>
+                  <a class="dropdown-item" href="changepassword">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Change Password
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a
+                    class="dropdown-item"
+                    href="javascript:void(0);"
+                    data-toggle="modal"
+                    data-target="#logoutModal"
+                  >
+                    <i
+                      class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+                    ></i>
+                    Logout
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </nav>
+          <!-- Topbar -->
+          <!-- Container Fluid-->
+          <div class="container-fluid" id="container-wrapper">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Template Documents</h1>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="template">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Template Documents
+                </li>
+              </ol>
+            </div>
+
+            <!-- Row -->
+            <div class="row mb-3">
+              <!-- Area Chart -->
+              <div class="col-xl-8 col-lg-7">
+                <div class="card mb-4">
+                  <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                  >
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      New Document
+                    </h6>
+                  </div>
+                  <div class="card-body">
+                    <!-- Register Content -->
+                    <!-- <input type="hidden" id="temid"> -->
+                    <form
+                      action="fileinsert"
+                      method="POST"
+                      onsubmit="return validate()"
+                      enctype="multipart/form-data"
+                    >
+                      {% csrf_token %}
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label"
+                          >Template Name:</label
+                        >
+                        <label id="tempname"></label>
+                        <div class="col-sm-9">
+                          <label class="col-form-label"></label>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Document</label>
+                        <div class="col-sm-9">
+                          <div class="custom-file">
+                            <input
+                              type="file"
+                              class="custom-file-input"
+                              id="customFile"
+                              name="customfile"
+                            />
+                            <label class="custom-file-label" for="customFile"
+                              >Choose file</label
+                            >
+                            <input type="hidden" id="temid" name="tempid" />
+                            <input type="hidden" id="temid1" name="tempid1" />
+                            <span class="validation" id="valfile"></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-12 text-right">
+                          <button type="submit" class="btn btn-primary">
+                            Upload
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="text-center"></div>
+                    </form>
+                    <!-- Register Content -->
+                  </div>
+                </div>
+              </div>
+              <!-- Pie Chart -->
+              <div class="col-xl-4 col-lg-5">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="text-xs font-weight-bold text-uppercase mb-1"
+                        >
+                          Total No. of Documents
+                        </div>
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                          <span id="doccount"></span>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-primary"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Row-->
+
+            <div class="row">
+              <!-- Datatables -->
+              <div class="col-lg-12">
+                <div class="card mb-4">
+                  <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                  >
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      List of Template Documents
+                    </h6>
+                  </div>
+                  <div class="table-responsive p-3">
+                    <table
+                      class="table align-items-center table-flush"
+                      id="tableUser"
+                    ></table>
+                    <div class="row" style="margin-top: 0.8%">
+                      <div
+                        class="col-lg-6"
+                        id="NoOfRecords"
+                        style="font-weight: 800"
+                      ></div>
+                      <div class="col-lg-6 text-right" id="divPageNumber"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Logout -->
+            <div
+              class="modal fade"
+              id="logoutModal"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabelLogout"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelLogout">
+                      Ohh No!
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Are you sure you want to logout?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary"
+                      data-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <a href="login.html" class="btn btn-primary">Logout</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---Container Fluid-->
+        </div>
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>
+                copyright &copy;
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                - Reserved by
+                <b
+                  ><a href="https://www.quadrantresource.com/" target="_blank"
+                    >Quadrant Resource</a
+                  ></b
+                >
+              </span>
+            </div>
+          </div>
+        </footer>
+        <!-- Footer -->
+      </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script src="{%static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{%static 'js/ruang-admin.min.js' %}"></script>
+    <script src="{%static 'js/table-search-pagination.js' %}"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        
+      });
+      function data(response){
+         var columns = ["UserID", "Name", "FileName"];
+          var data = "";
+          data = response;
+          console.log(data);
+          var actionColumns = 3;
+          var actionColumnData = ["view","active","inactive", "delete"];
+          var searchField = 'Name'; // which column to be searched in the table when user enters something in the search textbox
+
+          onPageLoad(data, 'tableUser', columns, actionColumns, actionColumnData, 1, searchField); // using 1 as it should be default page on page load.
+      }
+    </script>
+    <script>
+      $("#customFile").on("change", function () {
+        //get the file name
+        var fileName = $(this).val();
+        //replace the "Choose a file" label
+        $(this).next(".custom-file-label").html(fileName);
+      });
+    </script>
+    <script type="text/javascript">
+      function fun() {
+        var x=document.getElementById("temid").value = localStorage.getItem(
+          "message"
+        ); // You need to set the value for input fields, not innerHTML.
+        document.getElementById("tempname").innerHTML = localStorage.getItem(
+          "message"
+        );
+        $.ajax({
+          // points to the url where your data will be posted
+          url: "/getid",
+          // post for security reason
+          type: "GET",
+
+          // data that you will like to return
+
+          data: { stock: x },
+          
+          headers: { "X-CSRFToken": "{{ csrf_token }}" },
+          processData: true,
+          contentType: true,
+          // what to do when the call is success
+          success: function (response) {
+            console.log(response);
+            var count=response[0].FileID;
+            $('#doccount').text(count);
+            data(response);
+            for (i=0; i< count; i++){
+              if (response[i].isActive == 0){
+                $('#active_' +response[i].UserID ).attr('disabled', 'true');
+                $('#inactive_' + response[i].UserID).prop('disabled', false);
+              }else{
+                $('#inactive_' + response[i].UserID).attr('disabled', 'true');
+                $('#active_' + response[i].UserID).prop('disabled', false);
+              }
+            }
+          },
+          // what to do when the call is complete ( you can right your clean from code here)
+          complete: function () {},
+          // what to do when there is an error
+          error: function (xhr, textStatus, thrownError) {},
+        });
+      }
+    </script>
+   
+  </body>
+</html>

@@ -1,0 +1,614 @@
+{% load static %}
+{% static "images" as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{%static 'img/logo/logo.png' %}" rel="icon">
+    <title>QR - Forms</title>
+    <link href="{%static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'css/ruang-admin.min.css' %}" rel="stylesheet">
+    
+    <style>
+        .btn-block {
+            display: block;
+            width: 6%;
+            margin-left: 981px;
+        }
+        label#tempname {
+        margin-left: -113px;
+        margin-top: 7px;
+    }
+    </style>
+
+</head>
+
+<body id="page-top" onload="fun()">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <img src="{%static 'img/logo/logo.png' %}">
+                </div>
+                <div class="sidebar-brand-text mx-3"><img src="{%static 'img/logo/qr-logo.png' %}"></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="template">
+                    <i class="far fa-fw fa-window-maximize"></i>
+                    <span>Templates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="adduser">
+                    <i class="fab fa-fw fa-wpforms"></i>
+                    <span>User Information</span>
+                </a>
+            </li>
+            <!--<li class="nav-item">
+                <a class="nav-link collapsed" href="#">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Saved Forms</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-palette"></i>
+                    <span>UI Colors</span>
+                </a>
+            </li>-->
+           <li class="nav-item">
+                <a class="nav-link" href="userform">
+                    <i class="fas fa-fw fa-columns"></i>
+                    <span>User Home</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle" src="{%static 'img/boy.png' %}"
+                                    style="max-width: 60px">
+                                <span class="ml-2 d-none d-lg-inline text-white small">QR (Admin)</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="profile">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="changepassword">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Topbar -->
+
+                <!-- Container Fluid-->
+                <div class="container-fluid" id="container-wrapper">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Template Form</h1>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="template">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Template Form</li>
+                        </ol>
+                    </div>
+
+                    <!-- Row -->
+                    <div class="row mb-3">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Number of Records</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Template Name:</label>
+                                        <label id="tempname">form</label>
+                                        <div class="col-sm-9">
+                                            <label class="col-form-label"></label>
+                                            <input type="hidden" id="temid" name="tempid">
+                                        </div>
+                                    </div>
+                                    <!-- Register Content -->
+                                    <form action="formdetails" method="POST" id="docform" >{% csrf_token %}
+                                        
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <label class="col-sm-4 col-form-label">No. of Rows</label>
+                                                <div class="col-sm-8">
+                                                    <input type="hidden" id="textcount" value="">
+                                                    <input type="text" id="inputrows" class="form-control rowt"
+                                                        name="rowno" placeholder="Enter No. of Rows"
+                                                        aria-describedby="passwordHelpInline" 
+                                                        onkeyup="rows(this.value)" />
+                                                    
+                                                    <span class="validation" id="valrows"></span>
+
+                                                </div>
+
+                                              <!--  <button type="submit" class="btn btn-primary" id="submit"
+                                                    hidden>Add</button>-->
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <label class="col-sm-4 col-form-label">No. of Columns</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="exampleInputFirstName"
+                                                        placeholder="Enter No. of Rows" value="4" readonly>
+                                                    <span class="validation" id="valTemplateName"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center">
+                                        </div>
+                                        <!-- Register Content -->
+                                        
+                                        <hr />
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Records</h6>
+                                        </div>
+                                    
+                                        <div class="table-responsive container">
+
+                                            <table class="table align-items-center table-flush" id="table">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Field Name</th>
+                                                        <th>Control Type</th>
+                                                        <th>Mandatory</th>
+                                                        <th>HTML tag</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tablebody">
+                                                    <input type="hidden" id="additems" name="dropdown" value="">
+                                                </tbody>
+                                            </table>
+                                        </div>                           
+                                        <div class="button">
+                                            <button type="button" value="submit" class="btn btn-primary btn-block save" onclick="documentform()" id="save">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                           
+                            
+
+                        </div>
+
+
+
+
+                    </div>
+                    <!--Row-->
+
+                    <div class="row">
+                        <!-- Datatables -->
+
+                    </div>
+
+                    <!-- Modal Logout -->
+                    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to logout?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        data-dismiss="modal">Cancel</button>
+                                    <a href="login.html" class="btn btn-primary">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!---Container Fluid-->
+            </div>
+
+
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>
+                            copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> - Reserved by
+                            <b><a href="https://www.quadrantresource.com/" target="_blank">Quadrant Resource</a></b>
+                        </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+        </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script src="{%static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{%static 'js/ruang-admin.min.js' %}"></script>
+    <script src="{%static 'vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="{%static 'js/demo/chart-area-demo.js' %}"></script>
+    <!-- Page level plugins -->
+    <script src="{%static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{%static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <!-- Page level custom scripts -->
+    <script type="text/javascript">
+        var dropdown = [];
+        function addItem(i,x) {
+            i = i + 1;
+            var data=x;
+            $('#rowCount'+x).val(i);
+            //console.log(i);
+            $('#textboxcount'+x).val(i);
+            $('.itemData'+x).append('<div class="row" id="item' + i + '"><div class="col-sm-2 text-center"><label class="col-form-label">Item</label></div><div class="col-sm-6"><input type="text" class="form-control" id="exampleInputFirstName'+i+data+'" placeholder="Enter Item Value"><span class="validation" id="valitem'+i+'"></span></div><div class="col-sm-2 text-center"><span class="input-group-btn input-group-append" onclick="addItem(' + i + ','+ data +')"><button class="btn btn-primary bootstrap-touchspin-up" id="addbtn'+i+'" type="button">+</button></span></div><div class="col-sm-2 text-center"><span class="input-group-btn input-group-prepend"><button class="btn btn-primary bootstrap-touchspin-down" type="button" onclick="deleteItem(' + i + ')">-</button></span></div></div>')
+            
+        }
+        function addItem1(i,x) {
+            
+            var data=x;
+            $('#rowCount'+x).val(i);
+            //console.log(i);
+            $('#textboxcount'+x).val(i);
+            $('.itemData'+x).append('<div class="row" id="item' + i + '"><div class="col-sm-2 text-center"><label class="col-form-label">Item</label></div><div class="col-sm-6"><input type="text" class="form-control" id="exampleInputFirstName'+i+data+'" placeholder="Enter Item Value"><span class="validation" id="valitem'+i+'"></span></div><div class="col-sm-2 text-center"><span class="input-group-btn input-group-append" onclick="addItem(' + i + ','+ data +')"><button class="btn btn-primary bootstrap-touchspin-up" id="addbtn'+i+'" type="button">+</button></span></div><div class="col-sm-2 text-center"><span class="input-group-btn input-group-prepend"><button class="btn btn-primary bootstrap-touchspin-down" type="button" onclick="deleteItem(' + i + ')">-</button></span></div></div>')
+            
+        }
+        function deleteItem(i) {
+            //debugger;
+            $('#item' + i).remove();
+            i = i - 1;
+            $('#rowCount').val(i);
+           
+        }
+        function controlSelect(id) {
+            //debugger;
+            select = $('#controltype' + id).val();
+            //console.log(select);
+            $('#selectData' + id).empty();
+            if (select == 'Dropdown') {
+                $("#control" + id).val(select);
+                $('#selectData' + id).append('<div class="col-sm-8"><input type="hidden" id="items'+id+'" name="dropdown'+id+'" value><select class="form-control" name="controltype' + id + '" id="controltype' + id + '" onchange="controlSelect(' + id + ')"><option value="SelectOption" disabled>Select Control</option><option value="TextBox">TextBox</option><option value="TextArea">TextArea</option><option value="Calender">Calender</option><option value="Dropdown" selected>Dropdown</option></select><input type="hidden" name="hiddenvalue'+id+'" id="control'+id+'" value></div><div class="col-sm-4" id="dropdownDisplay" style="padding-top:5%;"><a href="#" data-target="#exampleModalScrollable' + id + '" data-toggle="modal">View</a></div><div class="modal fade" id="exampleModalScrollable' + id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalScrollableTitle">Add Items</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><div class="itemData' + id + '"><div class="row" id="item1"><input type="hidden" id="textboxcount' + id + '" name="count" value="1"><input type="hidden" id="rowCount' + id + '" value="1" /><div class="col-sm-2 text-center"><label class="col-form-label">Item</label></div><div class="col-sm-6"><input type="text" class="form-control" id="exampleInputFirstName1' + id + '" placeholder="Enter Item Value"><span class="validation" id="valitem1"></span></div><div class="col-sm-2 text-center"><span class="input-group-btn input-group-append"><button class="btn btn-primary bootstrap-touchspin-up" type="button" onclick="addItem(1,' + id + ')">+</button></span></div></div></div></div><div class="modal-footer"><button type="button" class="btn btn-outline-primary" id="close'+id+'" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" id="savedata" onclick="addData(' + id + ')" >Add Data</button></div></div></div></div>')
+                $("#control" + id).val(select);
+            }
+
+            else if (select == 'Calender') {
+                $("#control" + id).val(select);
+                $('#selectData' + id).append('<div class="col-sm-12"><select class="form-control" name="controltype' + id + '" id="controltype' + id + '" onchange="controlSelect(' + id + ')"><option value="SelectOption" disabled>Select Control</option><option value="TextBox">TextBox</option><option value="TextArea">TextArea</option><option value="Calender" selected>Calender</option><option value="Dropdown">Dropdown</option></select><input type="hidden" name="hiddenvalue'+id+'" id="control'+id+'" value></div>')
+                $("#control" + id).val(select);
+            }
+            else if (select == 'TextArea') {
+                $("#control" + id).val(select);
+                $('#selectData' + id).append('<div class="col-sm-12"><select class="form-control" name="controltype' + id + '" id="controltype' + id + '" onchange="controlSelect(' + id + ')"><option value="SelectOption" disabled>Select Control</option><option value="TextBox">TextBox</option><option value="TextArea" selected>TextArea</option><option value="Calender">Calender</option><option value="Dropdown">Dropdown</option></select><input type="hidden" name="hiddenvalue'+id+'" id="control'+id+'" value></div>')
+                $("#control" + id).val(select);
+            }
+            else if (select == 'TextBox') {
+                $("#control" + id).val(select);
+                $('#selectData' + id).append('<div class="col-sm-12"><select class="form-control" name="controltype' + id + '" id="controltype' + id + '" onchange="controlSelect(' + id + ')"><option value="SelectOption" disabled>Select Control</option><option value="TextBox" selected>TextBox</option><option value="TextArea">TextArea</option><option value="Calender">Calender</option><option value="Dropdown">Dropdown</option></select><input type="hidden" name="hiddenvalue'+id+'" id="control'+id+'" value></div>')
+                $("#control" + id).val(select);
+            }
+
+        }
+        function addData(id){
+            //console.log(id);
+            dropdown=[];
+            var number=$('#rowCount'+id).val();
+            for (i = 0; i <= number; i++) {
+                var x =$('#exampleInputFirstName'+i+id).val();
+                //document.getElementById(""valitem"+i").innerHTML="";
+                if (x != ""){
+                    dropdown.push(x);
+                }else{ 
+                    document.getElementById("valitem"+i).innerHTML="Value Required";
+                    return false;
+                    
+                }
+            }
+            
+            $('#close'+id).click();
+           
+            $('#additems').val(dropdown);
+            $('#additems'+id).val(dropdown);
+            dropdown=[];
+            
+        }
+        //var num = $('#inputrows').val();
+        //console.log("previous count "+num);
+        var data;
+        var id;
+       // function test(){
+       //     var data=$('#sno').text();
+       //     console.log(data);
+       // }
+        function rows(value) {
+            
+            reg = /^\-?([1-9]\d*|0)(\.\d?[1-9])?$/;
+            id = $('#inputrows').val();
+            //console.log("current value "+id);
+            var olddata=$('#olddata').val(id);
+            //$('#tablebody').empty();
+            if (!reg.test(value)) {
+                //alert("please enter numaric values only");
+                emailError = "No. of Rows Required";
+                document.getElementById("valrows").innerHTML = emailError;
+                return false;
+            }
+            else {
+                //$('#tablebody').empty();
+                document.getElementById('valrows').innerHTML = "";
+                //$('#submit').click();
+                if (id != 0){
+                    var countdata=1+parseInt(data);
+                    console.log("ram"+countdata);
+                    if (isNaN(countdata)){
+                        console.log("hello");
+                        var datas= $('#textcount').val();
+                        
+                        if (datas == ""){
+                            for (i = 1; i <= id; i++) {
+                                //$('#tablebody').append('<input type="hidden" id="additems" name="dropdowndata" value="">');
+                                $('#tablebody').append('<tr ><td id="sno'+i+'">'+i+'</td><input type="hidden" id="additems'+i+'" class="additems'+i+'" name="dropdowndata'+i+'" value=""><td><input type="text" class="form-control" id="exampleInputfieldname'+i+'" name="fieldname'+i+'" placeholder="Enter Field Name"><span class="validation" id="valfiledname'+i+'"></span><input type="hidden" id="fieldid'+i+'" name="fieldid'+i+'" value=""></td><td><div class="row" id="selectData'+i+'"><div class="col-sm-12"><select class="form-control" name="controltype'+i+'" id="controltype'+i+'" onchange="controlSelect('+i+')"><option value="SelectOption" selected disabled>Select Control</option><option id="TextBox" value="TextBox">TextBox</option><option id="TextArea" value="TextArea">TextArea</option><option id="Calender" value="Calender">Calender</option><option id="Dropdown" value="Dropdown">Dropdown</option></select></div></div><input type="hidden" name="hiddenvalue'+i+'"id="control'+i+'" value=""><span class="validation" id="valcontroltype'+i+'"></span></td><td><select class="form-control" id="manadatory'+i+'" name="manadatory'+i+'"><option value="No" selected>No</option><option value="Yes">Yes</option></select></td><td><input type="text" class="form-control" name="htmltag'+i+'" id="htmltag'+i+'" placeholder="Enter HTML Tag"><span class="validation" id="valhtmltag'+i+'"></span></td></tr>')
+                                data=$('#sno'+i).text();
+                                //console.log("total count"+data);
+                            }
+                            $('#textcount').val(id);
+                            data = $('#textcount').val();
+                            console.log("nayvaaaaaaaa")
+                        }else{
+                            console.log("jjjjjj "+datas);
+                            console.log("jjjjjj "+id);
+                            for (i = datas; i < id; i++) {
+                                j=parseInt(i)+1;
+                                //$('#tablebody').append('<input type="hidden" id="additems" name="dropdowndata" value="">');
+                                $('#tablebody').append('<tr ><td id="sno'+j+'">'+j+'</td><input type="hidden" id="additems'+j+'" class="additems'+j+'" name="dropdowndata'+j+'" value=""><td><input type="text" class="form-control" id="exampleInputfieldname'+j+'" name="fieldname'+j+'" placeholder="Enter Field Name"><span class="validation" id="valfiledname'+j+'"></span><input type="hidden" id="fieldid'+i+'" name="fieldid'+i+'" value=""></td><td><div class="row" id="selectData'+j+'"><div class="col-sm-12"><select class="form-control" name="controltype'+j+'" id="controltype'+j+'" onchange="controlSelect('+j+')"><option value="SelectOption" selected disabled>Select Control</option><option id="TextBox" value="TextBox">TextBox</option><option id="TextArea" value="TextArea">TextArea</option><option id="Calender" value="Calender">Calender</option><option id="Dropdown" value="Dropdown">Dropdown</option></select></div></div><input type="hidden" name="hiddenvalue'+j+'" id="control'+j+'" value=""><span class="validation" id="valcontroltype'+j+'"></span></td><td><select class="form-control" id="manadatory'+j+'" name="manadatory'+j+'"><option value="No" selected>No</option><option value="Yes">Yes</option></select></td><td><input type="text" class="form-control" name="htmltag'+j+'" id="htmltag'+j+'" placeholder="Enter HTML Tag"><span class="validation" id="valhtmltag'+j+'"></span></td></tr>');
+                                data=$('#sno'+j).text();
+                                //console.log("total count "+data);
+                                
+                            }
+                            $('#textcount').val(id);
+                            data = $('#textcount').val();
+                        }
+                    }else{
+                        var datas=parseInt(data);
+                        //var datas= $('#textcount').val();
+                        console.log("---- "+datas);
+                        //console.log("jjjjjjjjj "+id)
+                        if(id < datas){
+                            $('#textcount').val(datas);
+                            console.log("thanks"+datas);
+                        }
+                        else if(datas < id){
+                            var n = id - datas;
+                            console.log("======"+n);
+                            for (i = 1; i <= n; i++) {
+                                var count=1+parseInt(data);
+                                //console.log("jasmine "+count)
+                                //$('#tablebody').append('<input type="hidden" id="additems" name="dropdowndata" value="">');
+                                $('#tablebody').append('<tr ><td id="sno'+count+'">'+count+'</td><input type="hidden" id="additems'+count+'" class="additems'+count+'" name="dropdowndata" value=""><td><input type="text" class="form-control" id="exampleInputfieldname'+count+'" name="fieldname'+count+'" placeholder="Enter Field Name"><span class="validation" id="valfiledname'+count+'"></span><input type="hidden" id="fieldid'+i+'" name="fieldid'+i+'" value=""></td><td><div class="row" id="selectData'+count+'"><div class="col-sm-12"><select class="form-control" name="controltype'+count+'" id="controltype'+count+'" onchange="controlSelect('+count+')"><option value="SelectOption" selected disabled>Select Control</option><option id="TextBox" value="TextBox">TextBox</option><option id="TextArea" value="TextArea">TextArea</option><option id="Calender" value="Calender">Calender</option><option id="Dropdown" value="Dropdown">Dropdown</option></select></div></div><input type="hidden" name="hiddenvalue'+count+'"id="control'+count+'" value=""><span class="validation" id="valcontroltype'+count+'"></span></td><td><select class="form-control" id="manadatory'+count+'" name="manadatory'+count+'"><option value="No" selected>No</option><option value="Yes">Yes</option></select></td><td><input type="text" class="form-control" name="htmltag'+count+'" id="htmltag'+count+'" placeholder="Enter HTML Tag"><span class="validation" id="valhtmltag'+count+'"></span></td></tr>');
+                                data=$('#sno'+count).text();
+                                //console.log(data);
+                            }
+                            $('#textcount').val(id);
+                            //data=$('#textcount').val();
+                            console.log("sunathhhhh"+data);
+                        }
+                        else{
+                            alert("Something went wrong please try again later!!!");
+                        }
+                    }
+                }else{
+                    $('#sno').remove();
+                }
+                //return reg.test(value);
+            }
+            // $("#save").show()
+        }
+        //function buttondisplay(value){
+        //    if(value==1){
+        //        $(".save").css('display', 'block');
+        //    }
+       //     else
+       //   {
+          //      $(".save").css('display', 'none');
+         //   }
+           // $('#exampleInputfieldname').click();
+           // $(".save").css('display', 'block');
+
+       // }
+        function documentform(){
+            //alert(id);
+            for (i=1;i<=id;i++){
+                var fieldname=document.getElementById("exampleInputfieldname"+i).value;
+                var controltype=document.getElementById("controltype"+i).value;
+                //alert(fieldname);
+                //console.log(fieldname);
+                //alert(controltype);
+                //console.log(controltype);
+                //var manadatory=document.getElementById("manadatory"+id).value;
+                var htmltag=document.getElementById("htmltag"+i).value;
+                document.getElementById("valfiledname"+i).innerHTML="";
+                //document.getElementById("valcontroltype"+i).innerHTML="";
+                document.getElementById("valhtmltag"+i).innerHTML="";
+                //console.log(htmltag);
+                if (fieldname == ""){
+                    fieldnameerror="Field Name Required";
+                    document.getElementById("valfiledname"+i).innerHTML=fieldnameerror;
+                    return false;
+                }
+               if (controltype == "SelectOption"){
+                   fieldnameerror="Control Type Required";
+                   document.getElementById("valcontroltype"+i).innerHTML=fieldnameerror;
+                   return false;
+                    
+                }
+                if (htmltag == "" || htmltag == null){
+                    fieldnameerror="Html Tag Required";
+                    document.getElementById("valhtmltag"+i).innerHTML=fieldnameerror;
+                    return false;
+                    
+                }
+            }
+            document.getElementById("docform").submit();
+        }
+       
+    
+        
+        function fun() {
+            var x= document.getElementById("temid").value = localStorage.getItem("message"); // You need to set the value for input fields, not innerHTML.
+            document.getElementById("tempname").innerHTML = localStorage.getItem("message");
+
+             $.ajax({
+                url: '/gettemid',
+                type: 'GET',
+                crossDomain: true,
+                cors: true,
+                secure: true,
+                data: {
+                    stock: x
+                },
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+
+                success: function(response) {
+            
+                   console.log(response);
+                   $('#inputrows').val(response.length);
+                   //rows(response.length);
+                   
+                   //$('#submit').click();
+                   response.forEach(function(response) {
+                       //var id=$('#inputrows').val(response.$id);
+                       //rows(id);
+                       $('#tablebody').append('<input type="hidden" id="additems" name="dropdowndata" value="">');
+                       //$('#tablebody').append('<tr ><td id="sno'+response.$id+'">'+response.$id+'</td><td><input type="text" class="form-control" id="exampleInputfieldname'+response.$id+'" name="fieldname'+response.$id+'" value="'+response.fieldName+'" placeholder="Enter Field Name"><span class="validation" id="valfiledname'+response.$id+'"></span></td><td><div class="row" id="selectData"><div class="col-sm-12"><select class="form-control" name="controltype'+response.$id+'"id="controltype'+response.$id+'" value=""><option value="SelectOption" selected disabled>Select Control</option><option id="TextBox" value="TextBox">TextBox</option><option id="TextArea" value="TextArea">TextArea</option><option id="Calender" value="Calender">Calender</option><option id="Dropdown" value="Dropdown">Dropdown</option></select><span id="valcontroltype'+response.$id+'"></div></div></td><td><select class="form-control" id="manadatory'+response.$id+'" name="manadatory'+response.$id+'" value=""><option value="No" selected>No</option><option value="Yes">Yes</option></select></td><td><input type="text" class="form-control" name="htmltag'+response.$id+'" id="htmltag'+response.$id+'" value="'+response.htmlTag+'" placeholder="Enter HTML Tag"><span class="validation" id="valhtmltag'+response.$id+'"></span></td></tr>');
+                        $('#tablebody').append('<tr ><td id="sno'+response.$id+'">'+response.$id+'</td><td><input type="text" class="form-control" id="exampleInputfieldname'+response.$id+'" name="fieldname'+response.$id+'" value="'+response.fieldName+'" placeholder="Enter Field Name"><span class="validation" id="valfiledname'+response.$id+'"></span><input type="hidden" id="fieldid'+response.$id+'" name="fieldid'+response.$id+'" value=""></td><td><div class="row" id="selectData'+response.$id+'"><span id="valcontroltype'+response.$id+'"></div></div></td><td><select class="form-control" id="manadatory'+response.$id+'" name="manadatory'+response.$id+'" value=""><option value="No" selected>No</option><option value="Yes">Yes</option></select></td><td><input type="text" class="form-control" name="htmltag'+response.$id+'" id="htmltag'+response.$id+'" value="'+response.htmlTag+'" placeholder="Enter HTML Tag"><span class="validation" id="valhtmltag'+response.$id+'"></span></td></tr>');
+                       $('#controltype'+response.$id).val(response.fieldType);
+                       $('#fieldid'+response.$id).val(response.fieldID);
+                       var x = response.fieldType;
+                       var y = '"' + x + '"';
+                       //console.log(y);
+                       //console.log(x);
+                       var dropdown="Dropdown";
+                       var data= y.includes(dropdown);
+                       //console.log("string value "+data);
+                        if (x == "TextBox") {
+                            $('#selectData'+response.$id).append('<div class="col-sm-12"><select class="form-control" name="controltype' + response.$id + '" id="controltype' + response.$id + '" onchange="controlSelect(' + response.$id + ')"><option value="SelectOption" disabled>Select Control</option><option value="TextBox" selected>TextBox</option><option value="TextArea">TextArea</option><option value="Calender">Calender</option><option value="Dropdown">Dropdown</option></select><input type="hidden" name="hiddenvalue'+response.$id+'"id="control'+response.$id+'" value="">')
+                            $('#control'+response.$id).val(response.fieldType);
+                        }else if (x == "TextArea") {
+                            $('#selectData'+response.$id).append('<div class="col-sm-12"><select class="form-control" name="controltype' + response.$id + '" id="controltype' + response.$id + '" onchange="controlSelect(' + response.$id + ')"><option value="SelectOption" disabled>Select Control</option><option value="TextBox">TextBox</option><option value="TextArea" selected>TextArea</option><option value="Calender">Calender</option><option value="Dropdown">Dropdown</option></select><input type="hidden" name="hiddenvalue'+response.$id+'"id="control'+response.$id+'" value="">')
+                            $('#control'+response.$id).val(response.fieldType);
+                        }
+                        else if (x == "Calender") {
+                            $('#selectData'+response.$id).append('<div class="col-sm-12"><select class="form-control" name="controltype' + response.$id + '" id="controltype' + response.$id + '" onchange="controlSelect(' + response.$id + ')"><option value="SelectOption" disabled>Select Control</option><option value="TextBox">TextBox</option><option value="TextArea">TextArea</option><option value="Calender" selected>Calender</option><option value="Dropdown">Dropdown</option></select><input type="hidden" name="hiddenvalue'+response.$id+'"id="control'+response.$id+'" value="">')
+                            $('#control'+response.$id).val(response.fieldType);
+                        }else {
+                            s=0;
+                            if(data == true){   
+                            //$('#controltype'+response.$id).val("Dropdown");
+                            //$("#control" + response.$id).val('Dropdown');
+                            
+                            $('#selectData'+response.$id).append('<div class="col-sm-8"><input type="hidden" id="additems'+response.$id+'" name="dropdowndata'+response.$id+'" value=""><select class="form-control" name="controltype' + response.$id + '" id="controltype' + response.$id + '" onchange="controlSelect(' + response.$id + ')"><option value="SelectOption" disabled>Select Control</option><option value="TextBox">TextBox</option><option value="TextArea">TextArea</option><option value="Calender">Calender</option><option value="Dropdown" selected>Dropdown</option></select><input type="hidden" name="hiddenvalue'+response.$id+'"id="control'+response.$id+'" value=""></div><div class="col-sm-4" id="dropdownDisplay" style="padding-top:5%;"><a href="#" data-target="#exampleModalScrollable' + response.$id + '" data-toggle="modal">View</a></div><div class="modal fade" id="exampleModalScrollable' + response.$id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalScrollableTitle">Add Items</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><div class="itemData' + response.$id + '"><div class="row" id="item1"><input type="hidden" id="textboxcount' + response.$id + '" name="count" value="1"><input type="hidden" id="rowCount' + response.$id + '" value="1" /><div class="col-sm-2 text-center"><label class="col-form-label">Item</label></div><div class="col-sm-6"><input type="text" class="form-control" id="exampleInputFirstName1' + response.$id + '" placeholder="Enter Item Value"><span class="validation" id="valitem0"></span></div><div class="col-sm-2 text-center"><span class="input-group-btn input-group-append"><button class="btn btn-primary bootstrap-touchspin-up" type="button" id="addbtn'+response.$id+'" onclick="addItem(1,' + response.$id + ')">+</button></span></div></div></div></div><div class="modal-footer"><button type="button" class="btn btn-outline-primary" id="close'+response.$id+'" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" id="savedata" onclick="addData(' + response.$id + ')" >Add Data</button></div></div></div></div>')
+                            $('#control'+response.$id).val("Dropdown");
+                            var dropdownitems = x.split("-");
+                            dropdownitems.shift();
+                            var d = dropdownitems[0].split(",");
+                            console.log(d);
+                            $('#additems'+response.$id).val(d);
+                            var len= d.length;
+                                for (i=1; i <= d.length; i++){
+                                    //j =i+1;
+                                    //$('#addbtn').click();
+                                    var x =$('#exampleInputFirstName'+i+response.$id).val(d[i-1]);
+                                    //$('#addbtn'+j).click();
+                                    addItem(i,response.$id);
+                                    deleteItem(len+1);
+                                }
+                                s=s+1;
+                                console.log("sssss "+len);
+                                $('#rowCount1').val(len);
+                                //$('#item'+len+1).empty();
+                                console.log("NO.of drodown count"+ s);
+                                
+                               
+                            //controlSelect(response.$id);
+                            }
+                            
+                        }
+                       if (response.mandatoryField == true){
+                         $('#manadatory'+response.$id).val("Yes");
+                        }else{
+                          $('#manadatory'+response.$id).val("No");
+                        }
+                        data=$('#sno'+response.$id).text();
+                        console.log(data);
+                        //console.log(response.fieldType + ": " + response.mandatoryField + "<br>");
+                        //$('#sno'+id).append('<td id="sno'+id+'"></td>');
+                        //$('.tablebody').append('<tr class="tablebody"><td id="sno'+id+'"></td><td><input type="text" class="form-control" id="exampleInputfieldname'+id+'" name="fieldname'+id+'" placeholder="Enter Field Name"><span class="validation" id="valFirstName"></span></td><td><div class="row" id="selectData"><div class="col-sm-12"><select class="form-control" name="controltype"id="controltype'+id+'"onchange="controlSelect()"><option value="SelectOption" selected disabled>Select Control</option><option id="TextBox" value="TextBox">TextBox</option><option id="TextArea" value="TextArea">TextArea</option><option id="Calender" value="Calender">Calender</option><option id="Dropdown" value="Dropdown">Dropdown</option></select></div></div></td><td><select class="form-control" id="manadatory'+id+'" name="manadatory"><option value="No" selected>No</option><option value="Yes">Yes</option></select></td><td><input type="text" class="form-control" name="htmltag" id="htmltag'+id+'" placeholder="Enter HTML Tag"><span class="validation" id="valFirstName"></span></td></tr>');
+                        //});
+                        //var datas=parseInt(data);
+                        //console.log("---- "+datas);
+                        $('#textcount').val(data);
+                        
+                        
+                        
+                    });
+                    
+                }
+            });
+
+        }
+        
+    </script>
+
+
+</body>
+
+</html>

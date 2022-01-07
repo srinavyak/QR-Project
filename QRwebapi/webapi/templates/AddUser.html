@@ -1,0 +1,398 @@
+﻿{% load static %}
+{% static "images" as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{%static 'img/logo/logo.png' %}" rel="icon">
+    <title>QR Forms</title>
+    <link href="{%static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'css/ruang-admin.min.css' %}" rel="stylesheet">
+    <script>
+
+        function uservalidation() {
+
+            var fname = document.getElementById("exampleInputFirstName").value;
+            var lname = document.getElementById("exampleInputLastName").value;
+            var qrid = document.getElementById("exampleInputQRID").value;
+            var email1 = document.getElementById("exampleInputEmail").value;
+            var pswd = document.getElementById("exampleInputPassword").value;
+            var cpswd = document.getElementById("exampleInputPasswordRepeat").value;
+            document.getElementById("valFirstName").innerHTML = "";
+            document.getElementById("valLastName").innerHTML = "";
+            document.getElementById("valQRID").innerHTML = "";
+            document.getElementById("valPassword").innerHTML = "";
+            document.getElementById("valConfirmPassword").innerHTML = "";
+
+            if (fname == "" || fname == null) {
+                fnameerror = "Firstname Required";
+                document.getElementById("valFirstName").innerHTML = fnameerror;
+                return false;
+            }
+            if (lname == "" || lname == null) {
+                lnameerror = "Lastname Required";
+                document.getElementById("valLastName").innerHTML = lnameerror;
+                return false;
+            }
+            if (qrid == "" || qrid == null) {
+                lnameerror = "QRID Required";
+                document.getElementById("valQRID").innerHTML = lnameerror;
+                return false;
+            }
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (reg.test(email1)) {
+                document.getElementById("valEmail").innerHTML = "";
+            }
+            else {
+                emailError = "Email Required";
+                document.getElementById("valEmail").innerHTML = emailError;
+                return false;
+            }
+            //var pwdreg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+            if (pswd.length < 4) {
+                pswdError = "Password Required";
+                document.getElementById("valPassword").innerHTML = pswdError;
+                return false;              
+            }
+            else if (cpswd.length < 4) {
+               cpswdError = "Confirm Password Required";
+               document.getElementById("valConfirmPassword").innerHTML = cpswdError;
+               return false;
+              
+            }           
+            else if (pswd != cpswd || cpswd == null) {
+                pswdcError = "Password and Confirm Password not matched";
+                document.getElementById("valConfirmPassword").innerHTML = pswdcError;
+                return false;
+            }
+            else
+            {
+            document.getElementById("valConfirmPassword").innerHTML = "";
+            return true;
+            }
+        }
+    </script>
+    <style>
+        p#error {
+            color: red;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <img src="{%static 'img/logo/logo.png' %}">
+                </div>
+                <div class="sidebar-brand-text mx-3"><img src="{%static 'img/logo/qr-logo.png' %}"></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="template">
+                    <i class="far fa-fw fa-window-maximize"></i>
+                    <span>Templates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="adduser">
+                    <i class="fab fa-fw fa-wpforms"></i>
+                    <span>User Information</span>
+                </a>
+            </li>
+           <!-- <li class="nav-item">
+                <a class="nav-link collapsed" href="#">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Saved Forms</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-palette"></i>
+                    <span>UI Colors</span>
+                </a>
+            </li>-->
+           <li class="nav-item">
+                <a class="nav-link" href="userform">
+                    <i class="fas fa-fw fa-columns"></i>
+                    <span>User Home</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle" src="{%static 'img/boy.png' %}"
+                                    style="max-width: 60px">
+                                <span class="ml-2 d-none d-lg-inline text-white small">QR (Admin)</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="profile">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="changepassword">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Topbar -->
+                <!-- Container Fluid-->
+                <div class="container-fluid" id="container-wrapper">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">User Information</h1>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="template">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">User Information</li>
+                        </ol>
+                    </div>
+
+                    <!-- Row -->
+                    <div class="row mb-3">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Add User</h6>
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                    <p class="alert {{ message.tags }}" id="error"><span>{{message}}</span></p>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <!-- Register Content -->
+                                    <form id="form" action="adduser1" onsubmit="return uservalidation()" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">First Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="exampleInputFirstName"
+                                                    name="firstname" placeholder="Enter First Name">
+                                                <span class="validation" id="valFirstName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Last Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="exampleInputLastName"
+                                                    name="lastname" placeholder="Enter Last Name">
+                                                <span class="validation" id="valLastName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">QRID</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="exampleInputQRID"
+                                                    name="QRID" placeholder="Enter QRID">
+                                                <span class="validation" id="valQRID"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Email</label>
+                                            <div class="col-sm-9">
+                                                <input type="email" class="form-control" id="exampleInputEmail"
+                                                    name="email" aria-describedby="emailHelp"
+                                                    placeholder="Enter Email Address">
+                                                <span class="validation" id="valEmail"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Type of User</label>
+                                            <div class="col-sm-9">
+                                              <select class="form-control" id="exampleFormControlSelect1" name="user">
+                                                <option value=1>Admin</option>
+                                                <option value=2>User</option>  
+                                              </select>
+                                                <span class="validation" id="valEmail"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Password</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="exampleInputPassword"
+                                                    name="password" placeholder="Password">
+                                                <span class="validation" id="valPassword"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Confirm Password</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control"
+                                                    id="exampleInputPasswordRepeat" name="confirmpassword"
+                                                    placeholder="Confirm Password">
+                                                <span class="validation" id="valConfirmPassword">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12  text-right">
+                                                <button type="submit" class="btn btn-primary"  value="submit ">Save User</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center">
+                                        </div>
+                                    </form>
+                                    <!-- Register Content -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total No. of Users
+                                            </div>
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><span id="totaluser">{{totaluser}}</span></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-users fa-2x text-info"></i>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">No. of Admins
+                                            </div>
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><span id="admin">{{totaladmin}}</span></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-users fa-2x text-info"></i>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">No. of Users</div>
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><span id="users">{{users}}</span></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-users fa-2x text-info"></i>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--Row-->
+
+                    <div class="row">
+                        <!-- Datatables -->
+                        <div class="col-lg-12">
+                            <div class="card mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">List of Users</h6>
+                                </div>
+                                <div class="table-responsive p-3">
+                                    <table class="table align-items-center table-flush" id="tableUser">
+                                    </table>
+                                    <div class="row" style="margin-top:.8%">
+                                        <div class="col-lg-6" id="NoOfRecords" style="font-weight:800"></div>
+                                        <div class="col-lg-6 text-right" id="divPageNumber"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!---Container Fluid-->
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>
+                            copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> - Reserved by
+                            <b><a href="https://www.quadrantresource.com/" target="_blank">Quadrant Resource</a></b>
+                        </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+        </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script src="{%static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{%static 'js/ruang-admin.min.js' %}"></script>
+    <script src="{%static 'js/table-search-pagination.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            //var columns = ["SheetID", "SheetName", "SortOrder", "UserRole"];
+            //var data = [{ "SheetID": 1, "SheetName": "Scenario Construction", "SortOrder": 1, "UserRole": "1,2" }, { "SheetID": 2, "SheetName": "Scenario Baseline", "SortOrder": 2, "UserRole": "1,2" }, { "SheetID": 3, "SheetName": "Azure Module", "SortOrder": 3, "UserRole": "1,2" }, { "SheetID": 4, "SheetName": "Scenario Summary", "SortOrder": 4, "UserRole": "1,2" }, { "SheetID": 5, "SheetName": "Pricing Insights", "SortOrder": 5, "UserRole": "1" }, { "SheetID": 6, "SheetName": "Scenario Comparison", "SortOrder": 6, "UserRole": "1,2" }, { "SheetID": 7, "SheetName": "Scenario Approval", "SortOrder": 7, "UserRole": "1" }, { "SheetID": 8, "SheetName": "Customer Summary", "SortOrder": 8, "UserRole": "1,2" }, { "SheetID": 9, "SheetName": "SKU Quick Lookup", "SortOrder": 9, "UserRole": "1,2" }, { "SheetID": 10, "SheetName": "Deal Options Summary", "SortOrder": 10, "UserRole": "1,2" }, { "SheetID": 11, "SheetName": "sheet11", "SortOrder": 11, "UserRole": "1" }, { "SheetID": 12, "SheetName": "sheet12", "SortOrder": 12, "UserRole": "1,2" }, { "SheetID": 18, "SheetName": "sheet13", "SortOrder": 13, "UserRole": "1,2" }, { "SheetID": 19, "SheetName": "sheet14", "SortOrder": 14, "UserRole": "1,2" }, { "SheetID": 20, "SheetName": "sheet15", "SortOrder": 15, "UserRole": "1" }, { "SheetID": 21, "SheetName": "sheet16", "SortOrder": 16, "UserRole": "2" }];
+            //var actionColumns = 2;
+            //var actionColumnData = ["edit", "delete"];
+            //var searchField = 'SheetName'; // which column to be searched in the table when user enters something in the search textbox
+
+            //onPageLoad(data, 'tableUser', columns, actionColumns, actionColumnData, 1, searchField); // using 1 as it should be default page on page load.
+
+            var columns = ["UserID", "FullName", "Email"];
+            var data =  {{userdata|safe}};
+            var actionColumns = 2;
+            var actionColumnData = ["edit", "delete"];
+            var searchField = 'FullName'; // which column to be searched in the table when user enters something in the search textbox
+
+            onPageLoad(data, 'tableUser', columns, actionColumns, actionColumnData, 1, searchField); // using 1 as it should be default page on page load.
+            $('#firstnamelabel').css('display', 'block');
+            $('.firstname').css('display', 'none');
+            $('#firstnamelabel').css('display', 'block');
+            $('.firstname').css('display', 'none');
+        
+        })
+    </script>
+    
+
+</body>
+
+</html>

@@ -1,0 +1,472 @@
+﻿{% load static %}
+{% static "images" as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{%static 'img/logo/logo.png' %}" rel="icon">
+    <title>QR - Forms</title>
+    <link href="{%static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+
+
+    <link href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+    <link href="{%static 'vendor/bootstrap-touchspin/css/jquery.bootstrap-touchspin.css' %}" rel="stylesheet">
+    <link href="{%static 'vendor/clock-picker/clockpicker.css' %}" rel="stylesheet">
+    <link href="{%static 'css/ruang-admin.min.css' %}" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+        label {
+            display: inline-block;
+            margin-bottom: .5rem;
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <img src="{%static 'img/logo/logo.png' %}">
+                </div>
+                <div class="sidebar-brand-text mx-3"><img src="{%static 'img/logo/qr-logo.png' %}"></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="template">
+                    <i class="far fa-fw fa-window-maximize"></i>
+                    <span>Templates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="adduser">
+                    <i class="fab fa-fw fa-wpforms"></i>
+                    <span>User Information</span>
+                </a>
+            </li>
+            <!--<li class="nav-item">
+                <a class="nav-link collapsed" href="#">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Saved Forms</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-palette"></i>
+                    <span>UI Colors</span>
+                </a>
+            </li>-->
+            <li class="nav-item">
+                <a class="nav-link" href="userform">
+                    <i class="fas fa-fw fa-columns"></i>
+                    <span>User Home</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle" src="{%static 'img/boy.png' %}"
+                                    style="max-width: 60px">
+                                <span class="ml-2 d-none d-lg-inline text-white small">QR (Admin)</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="profile">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="changepassword">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Topbar -->
+                <!-- Container Fluid-->
+                <div class="container-fluid" id="container-wrapper">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">User Form</h1>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="./">Home</a></li>
+                            <li class="breadcrumb-item">User Home</li>
+                        </ol>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <!-- Select2 -->
+                            <div class="card mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Form</h6>
+                                </div>
+
+                                <div class="card-body">
+                                    <input type="hidden" id="datacount" value="{{droplen}}">
+                                    {% for data,i in dropdownitem %}
+                                    
+                                    <input type="hidden" id="dropcount" value ="{{i}}">
+                                    <input type="hidden" id="dropdownitems{{i}}" value="{{data}}">
+                                    {% endfor %}
+                                    
+                                    <form method="POST" action="userdetails">
+                                        {% csrf_token %}
+                                        
+                                         {% for row,x in data %}
+                                        <div class="form-group">
+                                            {% if "TextBox" in row.fieldType %}
+                                            <label for="exampleFormControlInput1">{{row.fieldName}}</label>
+                                            <input type="text" class="form-control" id="{{row.htmlTag}}"  name="{{row.fieldName}}"
+                                                placeholder="{{row.fieldName}}" onkeyup="keyup('{{htmltagdata}}')" required>
+                                            <!-- onkeyup="keyup('Name,Date')" -->
+                                        </div>
+                                        <div class="form-group">
+                                            {% elif 'TextArea' in row.fieldType %}
+                                            <label class='form-label'>{{row.fieldName}}</label>
+                                            <input type="text" class="form-control" id="{{row.htmlTag}}" name="{{row.fieldName}}"
+                                                placeholder="{{row.fieldName}}" onkeyup="keyup('{{htmltagdata}}')" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            {% elif 'Dropdown' in row.fieldType %}
+                                                
+                                            <label class='form-label'>{{row.fieldName}}</label>
+                                            <select class="form-control dropitem{{x}}" id="{{row.htmlTag}}"   name="{{row.fieldName}}" onchange="keyup('{{htmltagdata}}')">
+                                            <input type="hidden" class="dropdownhidden"  value="{{x}}">
+                                                
+                                                
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- <select type="text" class="" id="floatingInput" placeholder="{{row.field}}"> -->
+                                        <div class="form-group">
+                                            {% elif "Calender" in row.fieldType %}
+                                            <label class='form-label'>{{row.fieldName}}</label>
+                                            <input type="date" class="form-control" id="{{row.htmlTag}}"  name="{{row.fieldName}}"
+                                                placeholder="{{row.fieldName}}" onchange="keyup('{{htmltagdata}}')">
+                                                 {% endif %}
+                                        
+                                        </div>
+                                        {% endfor %}
+                                        <!-- <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Example select</label>
+                                            <select class="form-control" id="exampleFormControlSelect1" onchange="">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Example textarea</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                                onkeyup=""></textarea>
+                                        </div>
+                                        <div class="form-group" id="simple-date3">
+                                            <label for="decadeView">Decade View</label>
+                                            <div class="input-group date">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-calendar"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" value="" id="Date"
+                                                    onchange="keyup('Name,Date')">
+
+                                            </div>
+                                        </div> -->
+                                        <div class="form-group row">
+                                            <div class="col-sm-12  text-right">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <input type="hidden" id="Hidden" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Template</h6>
+                                </div>
+                                <div class="card-body" id="docData">
+                                    {{filedata|safe}}
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to logout?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-primary"
+                                            data-dismiss="modal">Cancel</button>
+                                        <a href="login" class="btn btn-primary">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!---Container Fluid-->
+                </div>
+                <!---Container Fluid-->
+            </div>
+
+
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>
+                            copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> - Reserved by
+                            <b><a href="https://www.quadrantresource.com/" target="_blank">Quadrant Resource</a></b>
+                        </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+        </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+    <script src="{%static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Select2 -->
+    <script src="{%static 'vendor/select2/dist/js/select2.min.js' %}"></script>
+    <!-- Bootstrap Datepicker -->
+    <script src="{%static 'vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+    <!-- Bootstrap Touchspin -->
+    <script src="{%static 'vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js' %}"></script>
+    <!-- ClockPicker -->
+    <script src="{%static 'vendor/clock-picker/clockpicker.js' %}"></script>
+    <!-- RuangAdmin Javascript -->
+    <script src="{%static 'js/ruang-admin.min.js' %}"></script>
+    <!-- Javascript for this page -->
+    <script>
+        $(document).ready(function () {
+
+
+
+            $('.select2-single').select2();
+
+            // Select2 Single  with Placeholder
+            $('.select2-single-placeholder').select2({
+                placeholder: "Select a Province",
+                allowClear: true
+            });
+
+            // Select2 Multiple
+            $('.select2-multiple').select2();
+
+            // Bootstrap Date Picker
+            $('#simple-date1 .input-group.date').datepicker({
+                format: 'dd/mm/yyyy',
+                todayBtn: 'linked',
+                todayHighlight: true,
+                autoclose: true,
+            });
+
+            $('#simple-date2 .input-group.date').datepicker({
+                startView: 1,
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                todayHighlight: true,
+                todayBtn: 'linked',
+            });
+
+            $('#simple-date3 .input-group.date').datepicker({
+                startView: 2,
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                todayHighlight: true,
+                todayBtn: 'linked',
+            });
+
+            $('#simple-date4 .input-daterange').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                todayHighlight: true,
+                todayBtn: 'linked',
+            });
+
+            // TouchSpin
+
+            $('#touchSpin1').TouchSpin({
+                min: 0,
+                max: 100,
+                boostat: 5,
+                maxboostedstep: 10,
+                initval: 0
+            });
+
+            $('#touchSpin2').TouchSpin({
+                min: 0,
+                max: 100,
+                decimals: 2,
+                step: 0.1,
+                postfix: '%',
+                initval: 0,
+                boostat: 5,
+                maxboostedstep: 10
+            });
+
+            $('#touchSpin3').TouchSpin({
+                min: 0,
+                max: 100,
+                initval: 0,
+                boostat: 5,
+                maxboostedstep: 10,
+                verticalbuttons: true,
+            });
+
+            $('#clockPicker1').clockpicker({
+                donetext: 'Done'
+            });
+
+            $('#clockPicker2').clockpicker({
+                autoclose: true
+            });
+
+            let input = $('#clockPicker3').clockpicker({
+                autoclose: true,
+                'default': 'now',
+                placement: 'top',
+                align: 'left',
+            });
+
+            $('#check-minutes').click(function (e) {
+                e.stopPropagation();
+                input.clockpicker('show').clockpicker('toggleView', 'minutes');
+            });
+            dropdownBind();
+        });
+
+        function keyup(i) {
+          //  debugger;
+            var arr = i.split(',');
+            console.log(arr)
+            hiddenValue = $('#Hidden').val();
+            var str = $('#docData').html();
+            var i;
+
+            previousValue = $('#previous' + arr[i]).val();
+
+            if (hiddenValue == "") {
+                $('#Hidden').val(str);
+                hiddenValue = str;
+            }
+            var res = '';
+            for (i = 0; i < arr.length; i++) {
+                if (res == '') {
+                    if ($('#' + arr[i]).val() != '')
+                        res = hiddenValue.replaceAll('((' + arr[i] + '))', $('#' + arr[i]).val());
+                }
+                else {
+                    if ($('#' + arr[i]).val() != '')
+                        res = res.replaceAll('((' + arr[i] + '))', $('#' + arr[i]).val());
+                }
+            }
+            $('#previous' + arr[i]).val(res);
+            $('#docData').empty();
+            $('#docData').append(res);
+        }
+        function dropdownBind(){
+           
+           var count= $('#datacount').val();
+           console.log(count);
+           var y=[]
+           var inputshidden=[]
+           var hidden = $(".dropdownhidden"); 
+           for(var i = 0; i < hidden.length; i++){
+                inputshidden.push($(hidden[i]).val());
+            }
+
+           for (z=1; z<=count; z++){
+               var currentvalue= inputshidden[z-1];
+               console.log("current value data"+currentvalue);
+               var x= $('#dropdownitems'+z).val();
+               console.log(x);
+               y.push(x);
+               var data= y[z-1].split(",");
+               console.log(data);
+               //var itemcount= $('#dropdownhidden').val();
+               //console.log("dropdown count value"+itemcount)
+               $('.dropitem'+currentvalue).append('<option selected disabled>select</option>');
+               for (var i=0; i< data.length; i++){
+
+                    //$("#ddl_location").append('<option value="' + jsonData[i] + '">' + jsonData[i] + '</option>');
+                    $('.dropitem'+currentvalue).append('<option value="'+data[i]+'">'+data[i]+'</option>');
+                }
+                  
+               
+            }
+            
+            //console.log(y1[0][0]);
+            //var data= x.map(s => eval('null,' + s));
+            //console.log("jjj "+data);
+            //y1.push(data)
+            //console.log(y1);
+            
+            //var x= $('.dummy').text();
+            //console.log("jjjj "+x[0]);
+        }
+    </script>
+
+</body>
+
+</html>
